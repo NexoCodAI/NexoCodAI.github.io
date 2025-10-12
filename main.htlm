@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Falta de Aprendizaje Real en los LLMs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .author {
+            font-size: 1.1em;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .key-findings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .finding-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .finding-card:hover {
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .finding-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,255,255,0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .content-section {
+                padding: 25px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 La Falta de Aprendizaje Real en los LLMs</h1>
+            <div class="subtitle">Una investigación sobre los límites estructurales de la Inteligencia Artificial actual</div>
+            <div class="author">Bruno Visdómine Minguito | IES Arquitecto Ventura Rodríguez | 2025/2026</div>
+        </header>
+
+        <div class="content-section">
+            <h2>🎯 ¿De qué trata este proyecto?</h2>
+            <p>Los grandes modelos de lenguaje (LLMs) como ChatGPT han revolucionado la tecnología, pero ¿realmente aprenden como nosotros? Esta investigación demuestra que <strong>los LLMs actuales no pueden aprender de forma continua</strong> como lo hace el cerebro humano.</p>
+            
+            <div class="highlight-box">
+                <strong>💡 Descubrimiento Principal:</strong> Los LLMs operan con parámetros fijos después del entrenamiento, lo que significa que no pueden incorporar nuevo conocimiento de manera verdadera sin olvidar lo anterior - un fenómeno conocido como "olvido catastrófico".
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🧠 Cerebro Humano vs IA: La Diferencia</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Cerebro Humano</th>
+                        <th>LLMs (IA actual)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ejemplos para aprender</strong></td>
+                        <td>3-5 exposiciones</td>
+                        <td>1,000-10,000 ejemplos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiempo de aprendizaje</strong></td>
+                        <td>24-48 horas</td>
+                        <td>2-8 horas (con GPUs potentes)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Retención</strong></td>
+                        <td>Décadas</td>
+                        <td>Hasta el siguiente entrenamiento</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pérdida de conocimiento anterior</strong></td>
+                        <td>Mínima</td>
+                        <td>40-80% (olvido catastrófico)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nuevas conexiones diarias</strong></td>
+                        <td>100 millones - 1 billón</td>
+                        <td>0 (estructura fija)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <h2>📊 Hallazgos Clave</h2>
+            
+            <div class="key-findings">
+                <div class="finding-card">
+                    <div class="icon">🔒</div>
+                    <h3>Parámetros Estáticos</h3>
+                    <p>Los LLMs tienen una estructura fija tras el entrenamiento. No pueden crear nuevas conexiones de forma espontánea como el cerebro humano.</p>
+                </div>
+                
+                <div class="finding-card">
+                    <div class="icon">🧩</div>
+                    <h3>Solo Inducción</h3>
+                    <p>Los modelos actuales solo usan inferencia inductiva (patrones estadísticos), pero carecen de razonamiento abductivo - la capacidad de generar hipótesis nuevas.</p>
+                </div>
+                
+                <div class="finding-card">
+                    <div class="icon">💾</div>
+                    <h3>Memoria Externa</h3>
+                    <p>Técnicas como LoRA funcionan como "módulos externos" que no integran verdaderamente el conocimiento en el modelo base.</p>
+                </div>
+                
+                <div class="finding-card">
+                    <div class="icon">⚠️</div>
+                    <h3>Olvido Catastrófico</h3>
+                    <p>Al aprender algo nuevo, los LLMs olvidan entre 40-80% de lo aprendido anteriormente, algo que no ocurre en cerebros biológicos.</p>
+                </div>
+                
+                <div class="finding-card">
+                    <div class="icon">🎯</div>
+                    <h3>Sin Comprensión Real</h3>
+                    <p>Los LLMs replican patrones estadísticos del lenguaje, pero no comprenden el significado ni el contexto como lo hacemos los humanos.</p>
+                </div>
+                
+                <div class="finding-card">
+                    <div class="icon">🔬</div>
+                    <h3>Neuroplasticidad</h3>
+                    <p>El cerebro modifica continuamente sus conexiones (neuroplasticidad). Los LLMs actuales no tienen esta capacidad fundamental.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🔬 Metodología del Estudio</h2>
+            <p>Esta investigación combinó análisis filosófico, revisión de arquitecturas de IA y experimentación empírica:</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div>Tipos de Inferencia Analizados</div>
+                    <small>Deducción, Inducción, Abducción</small>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">5+</div>
+                    <div>Arquitecturas Estudiadas</div>
+                    <small>Transformers, CNN, RNN, y más</small>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">SPC</div>
+                    <div>Métrica Propia Desarrollada</div>
+                    <small>Similitud Paramétrica Conceptual</small>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div>Parámetros Sin Cambio</div>
+                    <small>Con técnicas como LoRA</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🚀 Implicaciones y Futuro</h2>
+            <p>Este trabajo no critica la utilidad de los LLMs actuales, sino que establece claramente sus límites estructurales. Para alcanzar una verdadera Inteligencia Artificial General (IAG), necesitamos:</p>
+            
+            <div class="highlight-box">
+                <strong>Direcciones Futuras de Investigación:</strong>
+                <ul style="margin-top: 15px; margin-left: 20px;">
+                    <li>✨ Arquitecturas con plasticidad paramétrica real</li>
+                    <li>🧠 Hardware neuromórfico adaptable</li>
+                    <li>🔄 Aprendizaje multimodal continuo en tiempo real</li>
+                    <li>💡 Consolidación selectiva de conocimiento</li>
+                    <li>🎯 Métricas estandarizadas de aprendizaje continuo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="color: white; border: none; margin-bottom: 20px;">📚 Quiero Saber Más</h2>
+            <p style="font-size: 1.2em; margin-bottom: 20px;">Este proyecto representa dos años de investigación exhaustiva sobre los fundamentos de la IA moderna.</p>
+            <a href="#" class="cta-button">Leer el Trabajo Completo</a>
+            <div style="margin-top: 30px; font-size: 0.9em;">
+                <p>Proyecto realizado en el programa de Bachillerato de Excelencia</p>
+                <p>Tutor: Jaime Martín García-Cueva</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Bruno Visdómine Minguito | IES Arquitecto Ventura Rodríguez</p>
+            <p style="margin-top: 10px;">Esta investigación busca promover un debate informado sobre el futuro de la Inteligencia Artificial</p>
+        </footer>
+    </div>
+</body>
+</html>
