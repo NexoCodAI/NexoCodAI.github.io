@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Falta de Aprendizaje Real en los LLMs</title>
+    <title>La Falta de Aprendizaje Real en los grandes modelos de lenguaje</title>
     <style>
         * {
             margin: 0;
@@ -12,211 +12,377 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: #0f172a;
+            background: #0a0a0a;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
         header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.15), transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
             text-align: center;
-            padding: 60px 20px;
-            color: white;
-            animation: fadeIn 1s ease-in;
+            padding: 40px 20px;
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #a855f7 0%, #7877c6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
         .subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-bottom: 10px;
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            color: #94a3b8;
+            margin-bottom: 20px;
+            font-weight: 400;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .author {
-            font-size: 1.1em;
-            opacity: 0.8;
-            margin-top: 20px;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: #64748b;
+            margin-top: 40px;
         }
 
-        .content-section {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: slideUp 0.8s ease-out;
+        .section {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            border-radius: 24px;
+            padding: clamp(30px, 5vw, 60px);
+            margin: 60px 0;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+            transform: translateY(-4px);
         }
 
         h2 {
-            color: #667eea;
-            font-size: 2em;
+            color: #f1f5f9;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            color: #cbd5e1;
+            font-size: clamp(1rem, 2vw, 1.15rem);
             margin-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            border-left: 5px solid #667eea;
-            padding: 25px;
-            margin: 25px 0;
-            border-radius: 10px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(120, 119, 198, 0.1) 100%);
+            border-left: 4px solid #a855f7;
+            padding: clamp(20px, 4vw, 35px);
             margin: 30px 0;
+            border-radius: 12px;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            transition: transform 0.3s ease;
+        .highlight-box strong {
+            color: #a855f7;
+            display: block;
+            margin-bottom: 15px;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
 
-        .stat-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .comparison-wrapper {
+            overflow-x: auto;
+            margin: 30px -20px;
+            padding: 0 20px;
         }
 
         .comparison-table {
             width: 100%;
+            min-width: 600px;
+            border-collapse: separate;
+            border-spacing: 0;
             margin: 30px 0;
-            border-collapse: collapse;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .comparison-table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a855f7 0%, #7877c6 100%);
             color: white;
-            padding: 20px;
+            padding: clamp(15px, 3vw, 25px);
             text-align: left;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 12px 0 0;
         }
 
         .comparison-table td {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
+            padding: clamp(12px, 2.5vw, 20px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+            background: rgba(15, 23, 42, 0.4);
+            color: #cbd5e1;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
         }
 
-        .comparison-table tr:hover {
-            background: #f5f5f5;
+        .comparison-table tr:last-child td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+
+        .comparison-table tr:last-child td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .comparison-table td strong {
+            color: #f1f5f9;
         }
 
         .key-findings {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: clamp(20px, 3vw, 30px);
+            margin: 40px 0;
         }
 
         .finding-card {
-            background: white;
-            border: 2px solid #667eea;
-            border-radius: 15px;
-            padding: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 16px;
+            padding: clamp(25px, 4vw, 35px);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finding-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #a855f7, #7877c6);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
         .finding-card:hover {
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-            transform: translateY(-5px);
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-8px);
+        }
+
+        .finding-card:hover::before {
+            transform: scaleX(1);
         }
 
         .finding-card h3 {
-            color: #667eea;
+            color: #a855f7;
             margin-bottom: 15px;
-            font-size: 1.4em;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+        }
+
+        .finding-card p {
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: clamp(15px, 3vw, 25px);
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(120, 119, 198, 0.1) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            padding: clamp(25px, 4vw, 40px);
+            border-radius: 16px;
+            color: #cbd5e1;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #a855f7 0%, #7877c6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-card > div:last-child {
+            color: #cbd5e1;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            font-weight: 500;
+        }
+
+        .stat-card small {
+            display: block;
+            margin-top: 8px;
+            color: #64748b;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
         }
 
         .cta-section {
             text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 20px;
-            margin: 40px 0;
+            padding: clamp(40px, 6vw, 80px) clamp(20px, 4vw, 60px);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(120, 119, 198, 0.15) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 24px;
+            margin: 60px 0;
+        }
+
+        .cta-section h2 {
+            color: #f1f5f9;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-button {
             display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 15px 40px;
+            background: linear-gradient(135deg, #a855f7 0%, #7877c6 100%);
+            color: white;
+            padding: clamp(12px, 2.5vw, 18px) clamp(30px, 5vw, 50px);
             border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
+            font-weight: 600;
+            font-size: clamp(1rem, 2vw, 1.15rem);
             transition: all 0.3s ease;
-            font-size: 1.1em;
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);
         }
 
         .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255,255,255,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px rgba(168, 85, 247, 0.5);
+        }
+
+        .cta-meta {
+            margin-top: 40px;
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+            color: #94a3b8;
+        }
+
+        .cta-meta p {
+            margin: 8px 0;
         }
 
         footer {
             text-align: center;
-            padding: 30px;
-            color: white;
-            opacity: 0.8;
+            padding: 60px 20px;
+            color: #64748b;
+            border-top: 1px solid rgba(168, 85, 247, 0.1);
+            margin-top: 80px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        footer p {
+            margin: 10px 0;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        ul {
+            margin-top: 15px;
+            margin-left: 20px;
         }
 
-        .icon {
-            font-size: 2em;
-            margin-bottom: 15px;
+        ul li {
+            color: #cbd5e1;
+            margin: 10px 0;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
+            .section {
+                margin: 40px 0;
+            }
+
+            .comparison-wrapper {
+                margin: 20px -20px;
             }
             
-            .content-section {
-                padding: 25px;
+            .key-findings {
+                gap: 20px;
             }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
+
+            header {
+                min-height: 80vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .comparison-table {
+                min-width: 500px;
+            }
+
+            .comparison-table td,
+            .comparison-table th {
+                padding: 10px;
             }
         }
     </style>
@@ -224,105 +390,105 @@
 <body>
     <div class="container">
         <header>
-            <h1>🤖 La Falta de Aprendizaje Real en los LLMs</h1>
-            <div class="subtitle">Una investigación sobre los límites estructurales de la Inteligencia Artificial actual</div>
-            <div class="author">Bruno Visdómine Minguito | IES Arquitecto Ventura Rodríguez | 2025/2026</div>
+            <div class="header-bg"></div>
+            <div class="header-content">
+                <h1>La Falta de Aprendizaje Real en los grandes modelos de lenguaje</h1>
+                <div class="subtitle">Una investigación sobre los límites estructurales de la Inteligencia Artificial actual</div>
+                <div class="author">Bruno Visdómine Minguito | IES Arquitecto Ventura Rodríguez | 2025/2026</div>
+            </div>
         </header>
 
-        <div class="content-section">
-            <h2>🎯 ¿De qué trata este proyecto?</h2>
+        <div class="section">
+            <h2>De qué trata este proyecto</h2>
             <p>Los grandes modelos de lenguaje (LLMs) como ChatGPT han revolucionado la tecnología, pero ¿realmente aprenden como nosotros? Esta investigación demuestra que <strong>los LLMs actuales no pueden aprender de forma continua</strong> como lo hace el cerebro humano.</p>
             
             <div class="highlight-box">
-                <strong>💡 Descubrimiento Principal:</strong> Los LLMs operan con parámetros fijos después del entrenamiento, lo que significa que no pueden incorporar nuevo conocimiento de manera verdadera sin olvidar lo anterior - un fenómeno conocido como "olvido catastrófico".
+                <strong>Descubrimiento Principal</strong>
+                <p>Los LLMs operan con parámetros fijos después del entrenamiento, lo que significa que no pueden incorporar nuevo conocimiento de manera verdadera sin olvidar lo anterior - un fenómeno conocido como "olvido catastrófico".</p>
             </div>
         </div>
 
-        <div class="content-section">
-            <h2>🧠 Cerebro Humano vs IA: La Diferencia</h2>
+        <div class="section">
+            <h2>Cerebro Humano vs IA: La Diferencia</h2>
             
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Característica</th>
-                        <th>Cerebro Humano</th>
-                        <th>LLMs (IA actual)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Ejemplos para aprender</strong></td>
-                        <td>3-5 exposiciones</td>
-                        <td>1,000-10,000 ejemplos</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Tiempo de aprendizaje</strong></td>
-                        <td>24-48 horas</td>
-                        <td>2-8 horas (con GPUs potentes)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Retención</strong></td>
-                        <td>Décadas</td>
-                        <td>Hasta el siguiente entrenamiento</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pérdida de conocimiento anterior</strong></td>
-                        <td>Mínima</td>
-                        <td>40-80% (olvido catastrófico)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Nuevas conexiones diarias</strong></td>
-                        <td>100 millones - 1 billón</td>
-                        <td>0 (estructura fija)</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="comparison-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>Cerebro Humano</th>
+                            <th>LLMs (IA actual)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ejemplos para aprender</strong></td>
+                            <td>3-5 exposiciones</td>
+                            <td>1,000-10,000 ejemplos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tiempo de aprendizaje</strong></td>
+                            <td>24-48 horas</td>
+                            <td>2-8 horas (con GPUs potentes)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retención</strong></td>
+                            <td>Décadas</td>
+                            <td>Hasta el siguiente entrenamiento</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pérdida de conocimiento anterior</strong></td>
+                            <td>Mínima</td>
+                            <td>40-80% (olvido catastrófico)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nuevas conexiones diarias</strong></td>
+                            <td>100 millones - 1 billón</td>
+                            <td>0 (estructura fija)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="content-section">
-            <h2>📊 Hallazgos Clave</h2>
+        <div class="section">
+            <h2>Hallazgos Clave</h2>
             
             <div class="key-findings">
                 <div class="finding-card">
-                    <div class="icon">🔒</div>
                     <h3>Parámetros Estáticos</h3>
                     <p>Los LLMs tienen una estructura fija tras el entrenamiento. No pueden crear nuevas conexiones de forma espontánea como el cerebro humano.</p>
                 </div>
                 
                 <div class="finding-card">
-                    <div class="icon">🧩</div>
                     <h3>Solo Inducción</h3>
                     <p>Los modelos actuales solo usan inferencia inductiva (patrones estadísticos), pero carecen de razonamiento abductivo - la capacidad de generar hipótesis nuevas.</p>
                 </div>
                 
                 <div class="finding-card">
-                    <div class="icon">💾</div>
                     <h3>Memoria Externa</h3>
                     <p>Técnicas como LoRA funcionan como "módulos externos" que no integran verdaderamente el conocimiento en el modelo base.</p>
                 </div>
                 
                 <div class="finding-card">
-                    <div class="icon">⚠️</div>
                     <h3>Olvido Catastrófico</h3>
                     <p>Al aprender algo nuevo, los LLMs olvidan entre 40-80% de lo aprendido anteriormente, algo que no ocurre en cerebros biológicos.</p>
                 </div>
                 
                 <div class="finding-card">
-                    <div class="icon">🎯</div>
                     <h3>Sin Comprensión Real</h3>
                     <p>Los LLMs replican patrones estadísticos del lenguaje, pero no comprenden el significado ni el contexto como lo hacemos los humanos.</p>
                 </div>
                 
                 <div class="finding-card">
-                    <div class="icon">🔬</div>
                     <h3>Neuroplasticidad</h3>
                     <p>El cerebro modifica continuamente sus conexiones (neuroplasticidad). Los LLMs actuales no tienen esta capacidad fundamental.</p>
                 </div>
             </div>
         </div>
 
-        <div class="content-section">
-            <h2>🔬 Metodología del Estudio</h2>
+        <div class="section">
+            <h2>Metodología del Estudio</h2>
             <p>Esta investigación combinó análisis filosófico, revisión de arquitecturas de IA y experimentación empírica:</p>
             
             <div class="stats-grid">
@@ -352,27 +518,27 @@
             </div>
         </div>
 
-        <div class="content-section">
-            <h2>🚀 Implicaciones y Futuro</h2>
+        <div class="section">
+            <h2>Implicaciones y Futuro</h2>
             <p>Este trabajo no critica la utilidad de los LLMs actuales, sino que establece claramente sus límites estructurales. Para alcanzar una verdadera Inteligencia Artificial General (IAG), necesitamos:</p>
             
             <div class="highlight-box">
-                <strong>Direcciones Futuras de Investigación:</strong>
-                <ul style="margin-top: 15px; margin-left: 20px;">
-                    <li>✨ Arquitecturas con plasticidad paramétrica real</li>
-                    <li>🧠 Hardware neuromórfico adaptable</li>
-                    <li>🔄 Aprendizaje multimodal continuo en tiempo real</li>
-                    <li>💡 Consolidación selectiva de conocimiento</li>
-                    <li>🎯 Métricas estandarizadas de aprendizaje continuo</li>
+                <strong>Direcciones Futuras de Investigación</strong>
+                <ul>
+                    <li>Arquitecturas con plasticidad paramétrica real</li>
+                    <li>Hardware neuromórfico adaptable</li>
+                    <li>Aprendizaje multimodal continuo en tiempo real</li>
+                    <li>Consolidación selectiva de conocimiento</li>
+                    <li>Métricas estandarizadas de aprendizaje continuo</li>
                 </ul>
             </div>
         </div>
 
         <div class="cta-section">
-            <h2 style="color: white; border: none; margin-bottom: 20px;">📚 Quiero Saber Más</h2>
-            <p style="font-size: 1.2em; margin-bottom: 20px;">Este proyecto representa dos años de investigación exhaustiva sobre los fundamentos de la IA moderna.</p>
-            <a href="La%20falta%20de%20aprendizaje%20%20real%20en%20los%20LLMs.pdf" class="cta-button" target="_blank">Leer el Trabajo Completo</a>
-            <div style="margin-top: 30px; font-size: 0.9em;">
+            <h2>Quiero Saber Más</h2>
+            <p>Este proyecto representa dos años de investigación exhaustiva sobre los fundamentos de la IA moderna.</p>
+            <a href="La%20falta%20de%20aprendizaje%20%20real%20en%20los%20grandes%20modelos%20de%20lenguaje.pdf" class="cta-button" target="_blank">Leer el Trabajo Completo</a>
+            <div class="cta-meta">
                 <p>Proyecto realizado en el programa de Bachillerato de Excelencia</p>
                 <p>Tutor: Jaime Martín García-Cueva</p>
             </div>
@@ -380,7 +546,7 @@
 
         <footer>
             <p>© 2025 Bruno Visdómine Minguito | IES Arquitecto Ventura Rodríguez</p>
-            <p style="margin-top: 10px;">Esta investigación busca promover un debate informado sobre el futuro de la Inteligencia Artificial</p>
+            <p>Esta investigación busca promover un debate informado sobre el futuro de la Inteligencia Artificial</p>
         </footer>
     </div>
 </body>
